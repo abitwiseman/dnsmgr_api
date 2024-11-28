@@ -34,6 +34,10 @@ dns_manager.add_records(
         {"type": "CNAME", "name": "alias", "value": "www.example.com."}
     ]
 )
+
+# Restart named service
+dns_manager.restart_named()
+
 ```
 Dnsmasq Configuration
 ```python

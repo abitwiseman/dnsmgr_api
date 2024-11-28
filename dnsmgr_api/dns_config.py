@@ -78,8 +78,6 @@ $TTL {ttl}
         # Execute the commands
         self._ssh_execute(commands)
 
-        # Restart named service
-        self._ssh_execute(["systemctl restart named"])
         print(f"Zone {domain} created successfully with master_vm as the primary name server.")
 
     def add_records(self, domain, records):
@@ -104,8 +102,6 @@ $TTL {ttl}
         commands = [f"echo '{entry}' >> {zone_file}" for entry in record_entries]
         self._ssh_execute(commands)
 
-        # Restart named service
-        self._ssh_execute(["systemctl restart named"])
         print(f"Added {len(records)} record(s) to zone {domain}.")
 
     def delete_zone(self, domain):
@@ -127,6 +123,13 @@ $TTL {ttl}
         self._ssh_execute(["systemctl restart named"])
         print(f"Zone {domain} deleted successfully.")
 
+    def restart_named(self):
+        """
+        Restart the named service.
+        """
+
+        # Restart named service
+        self._ssh_execute(["systemctl restart named"])
 
 class DnsmasqManager:
     def __init__(self, server_ip, username, password, dnsmasq_conf="/etc/dnsmasq.conf"):
