@@ -161,12 +161,12 @@ class DnsmasqManager:
         except Exception as e:
             print(f"Failed to execute commands: {e}")
 
-    def configure_dnsmasq(self, upstream_server):
+    def configure_dnsmasq(self, upstream_server, cache_size=0):
         """
         Configure dnsmasq to use the specified upstream DNS server.
         """
         commands = [
-            f"echo 'server={upstream_server}' > {self.dnsmasq_conf}",
+            f"echo -e 'server={upstream_server}\ncache-size={cache_size}' > {self.dnsmasq_conf}"
             "systemctl enable dnsmasq",
             "systemctl restart dnsmasq"
         ]
